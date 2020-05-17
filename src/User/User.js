@@ -15,11 +15,25 @@ const UserOutput=(props)=>{
     return (
         <div className="User">
         <div className="UserOutput">
-        <p onClick={props.click}>I am {props.username}</p>
+        <p onClick={props.click}>{props.username}</p>
        <p>{props.children}</p>
         </div>
         </div>
         )
     }
-    export { UserInput, UserOutput };
+
+
+const ValidationComponent=(props)=>{
+    return(
+        <div className="User">
+        <div className="UserOutput">
+        <p></p>
+        </div>
+        </div>
+        )
+    }
+
+
+
+    export { UserInput, UserOutput, ValidationComponent };
 

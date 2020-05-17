@@ -1,64 +1,41 @@
 import React, { Component } from 'react';
 import './App.css';
-import {UserInput,UserOutput} from './User/User.js'
+import Validation from './Validation/Validation';
+import Char from './Char/Char';
 
 class App extends Component {
-  state=
-  {
-    users:
-    [
-      {username:'deepti'},
-      {username:'Afreen'}
-    ]
+  state = {
+    userInput: ''
   }
 
-  switchUsernameHandler=(newUsername)=>{
-    this.setState(
-      {
-        users:
-        [
-          {username:newUsername},
-          {username:'Akshay'}
-        ]
-      }
-    )
+  inputChangedHandler = ( event ) => {
+    this.setState( { userInput: event.target.value } );
   }
 
-  usernameChangeHandler=(event)=>{
-    this.setState(
-      {
-        users:
-        [
-          {username:'Abhinav'},
-          {username:event.target.value}
-        ]
-      }
-    )
+  deleteCharHandler = ( index ) => {
+    const text = this.state.userInput.split('');
+    text.splice(index, 1);
+    const updatedText = text.join('');
+    this.setState({userInput: updatedText});
   }
 
-  render() {
-    const style={
-      color: "white",
-        backgroundColor: "DodgerBlue",
-        padding: "10px",
-        fontFamily: "Arial",
-        margin:"auto"
-    };
+  render () {
+    const charList = this.state.userInput.split('').map((ch, index) => {
+      return <Char 
+        character={ch} 
+        key={index}
+        clicked={() => this.deleteCharHandler(index)} />;
+    });
 
     return (
       <div className="App">
-        <button style={style} onClick={()=>this.switchUsernameHandler('Abhinav!!')}>Passing value as Arrow Function</button>
-        <br/><br/>
-        <button style={style} onClick={this.switchUsernameHandler.bind(this,'Abhinav!')}>Switch button</button>
-        <UserOutput username={this.state.users[0].username}
-          click={this.switchUsernameHandler.bind(this,'Abhi!')}>
-        </UserOutput>
-        <UserOutput username={this.state.users[1].username}>
-            React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.
-        </UserOutput>
-        <UserInput username={this.state.users[1].username}
-          changed={this.usernameChangeHandler}>
-        </UserInput>
+        <input
+          type="text"
+          onChange={this.inputChangedHandler}
+          value={this.state.userInput} />
+        <p>{this.state.userInput}</p>
+        <Validation inputLength={this.state.userInput.length} />
+        {charList}
       </div>
     );
   }
